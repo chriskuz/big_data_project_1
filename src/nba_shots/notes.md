@@ -1,0 +1,8 @@
+- need to find out how large the cluster is
+    - if its too small for all of this data, how do we navigate this problem of data storage?
+    - where specifically is the data stored? manager node or worker nodes? if the data is too large, is it always stored totally on worker nodes?
+    - when calling via API end point, do we chunk pull the data? 
+    - 
+- do our worker nodes need to be individually updated with python3? 
+    - if we manually do this, can we write about how to programmatically do this? 
+    - each worker is doing the work....so if we ask it to run python 3 and it only has python 2, i imagine the work won't get done correctly
