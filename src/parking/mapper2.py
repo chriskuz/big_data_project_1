@@ -9,15 +9,22 @@ def main():
     make_index = header.index("Vehicle Make")
     
     for row in reader:
+        # Make sure the row has enough columns
         if len(row) > max(year_index, make_index):
             vehicle_year = row[year_index].strip()
             vehicle_make = row[make_index].strip()
             
-            # Emit key-value pairs only if the field is not empty
-            if vehicle_year:
-                print(f"year_{vehicle_year}\t1")
+            try:
+                year_int = int(vehicle_year)
+            except ValueError:
+                year_int = 0
+                
+            if year_int > 0:
+                print(f"year_{year_int}\t1")
+            
             if vehicle_make:
                 print(f"make_{vehicle_make}\t1")
 
 if __name__ == "__main__":
     main()
+
