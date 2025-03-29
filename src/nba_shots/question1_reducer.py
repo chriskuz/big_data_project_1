@@ -16,8 +16,8 @@ for line in sys.stdin:
     fgm = int(fgm)
 
     if current_player_defender != key:
-        if current_player_defender:
-            p, d = current_player_defender
+        if current_player_defender and fgm_sum >= 3:
+            p, d = current_player_defender 
             print(f"{p}\t{d}\t{fgm_sum / attempts:.4f}")
         current_player_defender = key
         fgm_sum = 0
@@ -27,6 +27,6 @@ for line in sys.stdin:
     attempts += 1
 
 # print last one
-if current_player_defender:
+if current_player_defender and fgm_sum >= 3:
     p, d = current_player_defender
     print(f"{p}\t{d}\t{fgm_sum / attempts:.4f}")

@@ -22,7 +22,6 @@ def fix_defender_name(name):
     return name.title()
 
 
-print("on")
 
 reader = csv.DictReader(sys.stdin)
 
