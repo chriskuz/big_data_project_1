@@ -6,6 +6,8 @@ current_key = None
 fgm_sum = 0
 attempts = 0
 
+player_focus = ["James Harden", "Lebron James", "Stephen Curry", "Chris Paul"]
+
 for line in sys.stdin:
     line = line.strip()
     if not line.startswith("COMFORTZONE|"):
@@ -27,7 +29,7 @@ for line in sys.stdin:
     fgm_sum += fgm
     attempts += 1
 
-# Print last group
+#last one clause
 if current_key:
     p, z = current_key
     print(f"{p}\t{z}\t{fgm_sum / attempts:.4f}")

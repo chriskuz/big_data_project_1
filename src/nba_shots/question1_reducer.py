@@ -26,7 +26,7 @@ for line in sys.stdin:
     fgm_sum += fgm
     attempts += 1
 
-# print last one
+#last one clause
 if current_player_defender and fgm_sum >= 3:
     p, d = current_player_defender
     print(f"{p}\t{d}\t{fgm_sum / attempts:.4f}")
