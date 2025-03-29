@@ -10,7 +10,7 @@ def main():
     for row in reader:
         if len(row) > street_index:
             street_name = row[street_index].strip().upper()  # Convert to uppercase for standardization
-            if street_name and street_name.lower() != "nan":
+            if street_name and street_name.isalpha():
                 print(f"street_{street_name}\t1")
 
 if __name__ == "__main__":
