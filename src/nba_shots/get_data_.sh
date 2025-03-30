@@ -23,7 +23,5 @@ echo "Extracting contents"
 unzip -o "$ZIP_NAME"
 rm -f "$ZIP_NAME"
 
-echo "✅ NBA shot logs CSV downloaded to: $DATA_DIR"
-
 
 
