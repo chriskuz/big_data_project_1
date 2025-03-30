@@ -5,7 +5,7 @@ import csv
 def main():
     reader = csv.reader(sys.stdin)
     header = next(reader)
-    street_index = header.index("Street Name")
+    street_index = header.index("street_name")
     
     for row in reader:
         if len(row) > street_index:

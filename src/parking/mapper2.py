@@ -5,8 +5,8 @@ import csv
 def main():
     reader = csv.reader(sys.stdin)
     header = next(reader)
-    year_index = header.index("Vehicle Year")
-    make_index = header.index("Vehicle Make")
+    year_index = header.index("vehicle_year")
+    make_index = header.index("vehicle_make")
     
     for row in reader:
         # Make sure the row has enough columns
