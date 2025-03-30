@@ -6,7 +6,7 @@
 /usr/local/hadoop/bin/hdfs dfs -mkdir -p /mapreduce-project1/input/
 
 APP_TOKEN="tzksBXvIq9l9Ub985hzK3D5HP"
-API_URL="http://api.example.com/ny_parking_tickets?limit=0&app_token=${APP_TOKEN}"
+API_URL="https://data.cityofnewyork.us/resource/pvqr-7yc4.csv?limit=0&$$app_token=${APP_TOKEN}"
 
 curl -s "$API_URL" -o data.csv
 
