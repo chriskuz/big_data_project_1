@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # === Config ===
-PROJECT_DIR="/mapreduce-test/mapreduce-project1/big_data_project1"
+PROJECT_DIR="/mapreduce-test/mapreduce-project1/big_data_project_1"
 DATA_DIR="$PROJECT_DIR/data"
 ZIP_NAME="nba-shot-logs.zip"
 KAGGLE_USER=$(jq -r .username ~/.kaggle/kaggle.json)
