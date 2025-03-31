@@ -4,42 +4,49 @@ import sys
 def main():
     year_counts = {}
     make_counts = {}
-
-    # Process each line of the input
+    
+    # Process each line of input
     for line in sys.stdin:
         line = line.strip()
         if not line:
             continue
         
-        key, value = line.split("\t")
-        count = int(value)
+        parts = line.split("\t")
+        if len(parts) != 2:
+            continue
         
-        # Check the key prefix to determine which category it belongs to
-        if key.startswith("year_"):
-            year = key[len("year_"):]
-            year_counts[year] = year_counts.get(year, 0) + count
-        elif key.startswith("make_"):
-            vehicle_make = key[len("make_"):]
-            make_counts[vehicle_make] = make_counts.get(vehicle_make, 0) + count
+        key, count_str = parts
+        try:
+            count = int(count_str)
+        except ValueError:
+            continue
+        
+        # If the key is all digits, we assume it's a year.
+        if key.isdigit():
+            year_counts[key] = year_counts.get(key, 0) + count
+        else:
+            make_counts[key] = make_counts.get(key, 0) + count
+    
+    # Determine the most common year
+    max_year = None
+    max_year_count = 0
+    for year, total in year_counts.items():
+        if total > max_year_count:
+            max_year_count = total
+            max_year = year
+    
+    # Determine the most common make
+    max_make = None
+    max_make_count = 0
+    for make, total in make_counts.items():
+        if total > max_make_count:
+            max_make_count = total
+            max_make = make
 
-    # Determine the most common year and make if there is any data
-    if year_counts:
-        max_year = max(year_counts, key=year_counts.get)
-        max_year_count = year_counts[max_year]
-    else:
-        max_year = None
-        max_year_count = 0
-
-    if make_counts:
-        max_make = max(make_counts, key=make_counts.get)
-        max_make_count = make_counts[max_make]
-    else:
-        max_make = None
-        max_make_count = 0
-
-    # Output the results
-    print(f"Most common year: {max_year}\tCount: {max_year_count}")
-    print(f"Most common make: {max_make}\tCount: {max_make_count}")
+    if max_year is not None:
+        print(f"most common year of car to be ticketed: {max_year} with {max_year_count} tickets")
+    if max_make is not None:
+        print(f"most common make of car to be ticketed: {max_make} with {max_make_count} tickets")
 
 if __name__ == "__main__":
     main()

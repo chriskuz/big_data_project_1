@@ -4,30 +4,30 @@ import sys
 def main():
     street_counts = {}
 
-    # Process each line from the mapper's output
+    # Process each line of input from the mapper.
     for line in sys.stdin:
         line = line.strip()
         if not line:
             continue
-        
         try:
-            key, value = line.split("\t")
-            count = int(value)
+            street, count_str = line.split("\t")
+            count = int(count_str)
         except ValueError:
-            continue
-        
-        # Process only keys that start with "street_"
-        if key.startswith("street_"):
-            street = key[len("street_"):]
-            street_counts[street] = street_counts.get(street, 0) + count
+            continue  # Skip lines with formatting issues
 
-    # Determine the street with the highest count
-    if street_counts:
-        max_street = max(street_counts, key=street_counts.get)
-        max_count = street_counts[max_street]
-        print(f"Most common street: {max_street}\tCount: {max_count}")
-    else:
-        print("No valid street data found.")
+        # Aggregate counts for each street.
+        street_counts[street] = street_counts.get(street, 0) + count
+
+    # Find the street with the maximum count.
+    max_street = None
+    max_count = 0
+    for street, count in street_counts.items():
+        if count > max_count:
+            max_count = count
+            max_street = street
+
+    if max_street is not None:
+        print(f"tickets are most commonly issued at: {max_street} with {max_count} tickets")
 
 if __name__ == "__main__":
     main()

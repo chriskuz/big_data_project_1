@@ -3,15 +3,12 @@ import sys
 import csv
 
 def main():
-    reader = csv.reader(sys.stdin)
-    header = next(reader)
-    street_index = header.index("street_name")
-    
+    reader = csv.DictReader(sys.stdin)
     for row in reader:
-        if len(row) > street_index:
-            street_name = row[street_index].strip().upper()  # Convert to uppercase for standardization
-            if street_name and street_name.isalpha():
-                print(f"street_{street_name}\t1")
+        street_name = row.get("street_name", "").strip()
+        if street_name:
+            # Convert street name to uppercase and output as key-value pair
+            print(f"{street_name.upper()}\t1")
 
 if __name__ == "__main__":
     main()
