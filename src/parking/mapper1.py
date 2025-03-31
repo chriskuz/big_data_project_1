@@ -19,14 +19,14 @@ def is_valid_violation_time(time_field):
 
 def process_row(row, time_index):
     try:
-        # Extract and clean the "Violation Time" field
+        # Extract and clean the "violation_time" field
         time_field = row[time_index].strip()
         
         # Validate the time field; skip the row if it doesn't meet criteria
         if not is_valid_violation_time(time_field):
             return
         
-        # Extract hour (first two digits) and AM/PM indicator (fifth character)
+        # Extract hour (first two digits) and the AM/PM indicator (fifth character)
         hour_str = time_field[:2]
         ampm = time_field[4].upper()  # Should be "A" or "P"
         hour = int(hour_str)
@@ -42,12 +42,11 @@ def process_row(row, time_index):
         print(f"{formatted_hour}\t1")
     
     except Exception as e:
-        # Write any error details to stderr and skip the problematic row.
+        # Log any error details to stderr and skip this row.
         sys.stderr.write(f"Error processing row: {row}. Error: {e}\n")
 
 def main():
     reader = csv.reader(sys.stdin)
-    
     try:
         # Read header and get the index for "violation_time"
         header = next(reader)
@@ -56,12 +55,10 @@ def main():
         sys.stderr.write(f"Error reading header or finding 'violation_time' column: {e}\n")
         return
     
-    # Process each row using the time_index
+    # Process each row using the time_index, skipping rows that are empty or too short.
     for row in reader:
-        # Skip rows with fewer columns than expected or that are completely empty.
         if not row or len(row) <= time_index:
             continue
-        
         process_row(row, time_index)
 
 if __name__ == "__main__":
