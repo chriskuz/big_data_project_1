@@ -12,6 +12,7 @@ import csv
     # shot clocks
 
 
+#meant to reverse the order of the closest defender to match naming convention of player_name
 def fix_defender_name(name):
     if not name or name.strip() == "":
         return None
@@ -25,7 +26,7 @@ def fix_defender_name(name):
 
 reader = csv.DictReader(sys.stdin)
 
-print(reader)
+# print(reader)
 
 for row in reader:
     try:
@@ -44,11 +45,12 @@ for row in reader:
 
     if not player or not defender:
         continue
-    # Emit for Question 1
+    
+    #for question 1
     print(f"{player}\t{defender}\t{fgm}")
 
-    # Emit for Question 2
-    zone = f"{shot_dist}_{def_dist}_{shot_clock}"
+    #for question 2
+    zone = f"{shot_dist}_{def_dist}_{shot_clock}" #underscore delimiter
     print(f"COMFORTZONE|{player}|{zone}\t{fgm}")
 
 
