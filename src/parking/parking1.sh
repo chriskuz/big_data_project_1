@@ -6,10 +6,7 @@
 /usr/local/hadoop/bin/hdfs dfs -mkdir -p /mapreduce-project1/input/
 
 APP_TOKEN="tzksBXvIq9l9Ub985hzK3D5HP"
-#API_URL="https://data.cityofnewyork.us/resource/pvqr-7yc4.csv?limit=0&$$app_token=${APP_TOKEN}"
-
-curl -s -H "X-App-Token: $APP_TOKEN" "https://data.cityofnewyork.us/resource/pvqr-7yc4.csv?limit=50000" -o data.csv
-
+curl -s -H "X-App-Token: $APP_TOKEN" "https://data.cityofnewyork.us/resource/pvqr-7yc4.csv?\$limit=50000" -o data.csv
 
 /usr/local/hadoop/bin/hdfs dfs -put data.csv /mapreduce-project1/input/
 
