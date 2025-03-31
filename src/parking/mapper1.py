@@ -48,7 +48,7 @@ def main():
     
     # Read header and get the index for "Violation Time"
     header = next(reader)
-    time_index = header.index("violation_time")
+    time_index = header.index("Violation_Time")
     
     # Process each row using the time_index
     for row in reader:
