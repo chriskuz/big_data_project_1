@@ -2,36 +2,32 @@
 import sys
 
 def main():
-    counts = {}
+    hour_counts = {}
 
-    # Process each line from the mapper's output
+    # Process each line from standard input.
     for line in sys.stdin:
         line = line.strip()
         if not line:
             continue
-        
-        # Each line is expected to be in the format: hour \t 1
         try:
             hour, count_str = line.split("\t")
             count = int(count_str)
         except ValueError:
-            continue
+            continue  # Skip lines that don't match the expected format
 
-        # Accumulate counts per hour
-        if hour in counts:
-            counts[hour] += count
-        else:
-            counts[hour] = count
+        # Aggregate counts for each hour
+        hour_counts[hour] = hour_counts.get(hour, 0) + count
 
     # Find the hour with the maximum count
-    try:
-        max_hour = max(counts, key=counts.get)
-        max_count = counts[max_hour]
-        # Output the hour with the maximum ticket count
-        print(f"{max_hour}\t{max_count}")
-    except ValueError:
-        # Handle the case where counts is empty
-        pass
+    max_hour = None
+    max_count = 0
+    for hour, total in hour_counts.items():
+        if total > max_count:
+            max_count = total
+            max_hour = hour
+
+    if max_hour is not None:
+        print(f"tickets are most likely to be issued at the hour {max_hour} with {max_count} tickets")
 
 if __name__ == "__main__":
     main()
