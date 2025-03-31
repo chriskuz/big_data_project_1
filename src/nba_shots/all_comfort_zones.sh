@@ -1,6 +1,4 @@
-#!/bin/sh
-
-#!/bin/sh
+#!/bin/bash
 
 ../../../../start.sh
 
@@ -48,8 +46,8 @@ echo "  SHOT_CLOCK: $SHOT_CLOCK"
   -output $OUTPUT2 \
   -file general_mapper.py -mapper general_mapper.py \
   -file comfort_zone_sort_mapper.py \
-  -file comfort_zone_aggregator_reducer.py \
-  -reducer "python3 comfort_zone_sort_mapper.py $SHOT_DIST $CLOSE_DEF $SHOT_CLOCK | sort | python3 comfort_zone_aggregator_reducer.py"
+  -file all_comfort_zones_reducer.py \
+  -reducer "python3 comfort_zone_sort_mapper.py $SHOT_DIST $CLOSE_DEF $SHOT_CLOCK | sort | python3 all_comfort_zones_reducer.py"
 
 # === View Final Output ===
 /usr/local/hadoop/bin/hdfs dfs -cat $OUTPUT2/part-00000
