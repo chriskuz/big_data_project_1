@@ -176,3 +176,31 @@ So, I just tested the reducer, and it fails at the `try` statement. Why? Is ther
 Where is the midpoint actually calculated? Do we calculate midpoints in the reducer that finds the maximums or is that calculated in another reducer warranting the use of the maximums values pulled in as arguments?
 
 Note this is all going to be plugged into hdfs, meaning shell scripts will be used to execute this question. 
+
+
+
+
+
+
+
+The successful local testing piping of the multi-hierarchical mapreduce program for unfiltered players goes as follows:
+
+
+```
+cat ../../data/shot_logs.csv \
+| python3 maxpoint_mapper.py \
+| sort \
+| python3 maxpoint_reducer.py > maxpoints.txt  
+```
+
+note that max points geets created here and it's helpful for testing locally. not sure if we put it on hdfs yet. 
+
+
+```
+cat ../../data/shot_logs.csv \
+| python3 general_mapper.py \
+| grep "^COMFORTZONE" \
+| python3 comfort_zone_sort_mapper.py $(awk '$1=="SHOT_DIST"{d=$2/2} $1=="CLOSE_DEF_DIST"{c=$2/2} $1=="SHOT_CLOCK"{s=$2/2} END{printf "%.4f %.4f %.4f", d, c, s}' maxpoints.txt) \
+| sort \
+| python3 all_comfort_zones_reducer.py
+```
