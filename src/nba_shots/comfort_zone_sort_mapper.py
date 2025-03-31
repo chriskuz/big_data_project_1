@@ -1,38 +1,40 @@
 #!/usr/bin/env python3
 import sys
+import csv
 
-SHOT_DIST_THRESH = float(sys.argv[1])
-CLOSE_DEF_THRESH = float(sys.argv[2])
-SHOT_CLOCK_THRESH = float(sys.argv[3])
-
-def get_zone_label(shot_dist, def_dist):
-    shot = 1 if shot_dist >= SHOT_DIST_THRESH else 0
-    defender = 1 if def_dist >= CLOSE_DEF_THRESH else 0
-    if shot == 0 and defender == 0:
-        return "closer_shooting_closer_defender"
-    elif shot == 1 and defender == 0:
-        return "further_shooting_closer_defender"
-    elif shot == 0 and defender == 1:
-        return "closer_shooting_further_defender"
-    else:
-        return "further_shooting_further_defender"
+# Midpoint thresholds passed from command line args
+shot_dist_mid = float(sys.argv[1])
+def_dist_mid = float(sys.argv[2])
+clock_mid = float(sys.argv[3])
 
 for line in sys.stdin:
-    line = line.strip()
-    if not line.startswith("COMFORTZONE|"):
+    if not line.startswith("COMFORTZONE"):
         continue
-
     try:
-        tag, fgm = line.split("\t")
-        _, player, zone = tag.strip().split("|")
-        shot_dist, def_dist, shot_clock = map(float, zone.strip().split("_"))
-        fgm = int(fgm.strip())
-    except:
+        prefix, value = line.strip().split("\t")
+        _, player, zone = prefix.split("|")
+        shot_dist, def_dist, clock = map(float, zone.split("_"))
+        fgm = int(value)
+    except ValueError:
         continue
 
-    zone_label = get_zone_label(shot_dist, def_dist)
-    clock_tag = "high_clock" if shot_clock >= SHOT_CLOCK_THRESH else "low_clock"
-    final_zone = f"{zone_label}_{clock_tag}"
+    # Categorize zone
+    sd = int(shot_dist >= shot_dist_mid)
+    dd = int(def_dist >= def_dist_mid)
+    sc = int(clock >= clock_mid)
 
-    key = f"{player}\t{final_zone}"
-    print(f"{key}\t{fgm}")
+    # Comfort zone name
+    if sd == 0 and dd == 0:
+        zone_label = "closer_shooting_closer_defender"
+    elif sd == 1 and dd == 0:
+        zone_label = "further_shooting_closer_defender"
+    elif sd == 0 and dd == 1:
+        zone_label = "closer_shooting_further_defender"
+    else:
+        zone_label = "further_shooting_further_defender"
+
+    clock_label = "high_clock" if sc else "low_clock"
+    final_zone = f"{zone_label}_{clock_label}"
+
+    # Emit as single key: player|zone, then tab, then fgm
+    print(f"{player}|{final_zone}\t{fgm}")

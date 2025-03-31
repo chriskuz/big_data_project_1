@@ -2,34 +2,31 @@
 import sys
 
 current_key = None
-fgm_sum = 0
-fga_sum = 0
+fgm_total = 0
+fga_total = 0
 
 for line in sys.stdin:
     try:
-        parts = line.strip().split("\t")
-        if len(parts) != 3:
-            continue
-        player, zone, fgm = parts
-        key = (player, zone)
+        key, fgm = line.strip().split("\t")
+        player, zone = key.split("|")
         fgm = int(fgm)
-    except:
+    except ValueError:
         continue
 
-    if current_key != key:
-        if current_key:
-            p, z = current_key
-            hit_rate = (fgm_sum / fga_sum) * 100 if fga_sum > 0 else 0.0
-            print(f"{p}\t{z}\t{fgm_sum}\t{fga_sum}\t{hit_rate:.2f}")
+    if key != current_key:
+        if current_key is not None:
+            cp, cz = current_key.split("|")
+            hit_rate = (fgm_total / fga_total) * 100 if fga_total > 0 else 0.0
+            print(f"{cp}\t{cz}\t{fgm_total}\t{fga_total}\t{hit_rate:.2f}")
         current_key = key
-        fgm_sum = 0
-        fga_sum = 0
+        fgm_total = 0
+        fga_total = 0
 
-    fgm_sum += fgm
-    fga_sum += 1
+    fgm_total += fgm
+    fga_total += 1
 
-# last record
+# Last line
 if current_key:
-    p, z = current_key
-    hit_rate = (fgm_sum / fga_sum) * 100 if fga_sum > 0 else 0.0
-    print(f"{p}\t{z}\t{fgm_sum}\t{fga_sum}\t{hit_rate:.2f}")
+    cp, cz = current_key.split("|")
+    hit_rate = (fgm_total / fga_total) * 100 if fga_total > 0 else 0.0
+    print(f"{cp}\t{cz}\t{fgm_total}\t{fga_total}\t{hit_rate:.2f}")
