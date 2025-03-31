@@ -18,7 +18,7 @@ for line in sys.stdin:
     fgm = int(fgm)
 
     if current_player_defender != key:
-        if current_player_defender and fgm_sum >= 3 and attempts >= 5:
+        if current_player_defender and fgm_sum >= 2 and attempts >= 5:
             p, d = current_player_defender 
             hit_rate = fgm_sum / attempts
             if p not in min_fear_scores or hit_rate < min_fear_scores[p][1]:
@@ -33,7 +33,7 @@ for line in sys.stdin:
     attempts += 1 #adds attempt up regardless
 
 #last one clause
-if current_player_defender and fgm_sum >= 3 and attempts >= 5:
+if current_player_defender and fgm_sum >= 2 and attempts >= 5:
     p, d = current_player_defender
     hit_rate = fgm_sum / attempts
     if p not in min_fear_scores or hit_rate < min_fear_scores[p][1]:

@@ -17,3 +17,5 @@ The default dict csv
 The use of fgm_sum threshold
 
 Last case condition
+
+talk about why fgm going to 2 is both low, but also most probable for statistically significance (ignoring just 1, but weighing in those who score twice in a game and primarily on the same exact defender)...5 attempts is more of a weighting factor. 
