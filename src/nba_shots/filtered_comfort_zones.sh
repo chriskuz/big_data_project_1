@@ -7,13 +7,13 @@ OUTPUT1="/mapreduce-project1/output1_maxpoints"
 OUTPUT2="/mapreduce-project1/output2_comfort_mapper"
 OUTPUT3="/mapreduce-project1/output3_comfort_reducer"
 
-# Cleanup
+
 /usr/local/hadoop/bin/hdfs dfs -rm -r $INPUT $OUTPUT1 $OUTPUT2 $OUTPUT3
 
 /usr/local/hadoop/bin/hdfs dfs -mkdir -p $INPUT
 /usr/local/hadoop/bin/hdfs dfs -copyFromLocal ../../data/shot_logs.csv $INPUT
 
-# === STEP 1: Maxpoint ===
+
 /usr/local/hadoop/bin/hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.3.1.jar \
   -file maxpoint_mapper.py -mapper maxpoint_mapper.py \
   -file maxpoint_reducer.py -reducer maxpoint_reducer.py \
@@ -30,23 +30,23 @@ read SHOT_DIST CLOSE_DEF SHOT_CLOCK < <(awk '
 
 echo "[INFO] Midpoints: $SHOT_DIST $CLOSE_DEF $SHOT_CLOCK"
 
-# === STEP 2: Categorization job (outputs player + zone + FGM) ===
+
 /usr/local/hadoop/bin/hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.3.1.jar \
   -file general_mapper.py -mapper general_mapper.py \
   -file filtered_comfort_zone_sort_mapper.py \
   -reducer "python3 filtered_comfort_zone_sort_mapper.py $SHOT_DIST $CLOSE_DEF $SHOT_CLOCK" \
   -input $INPUT -output $OUTPUT2
 
-# === STEP 3: Aggregation job ===
+
 /usr/local/hadoop/bin/hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.3.1.jar \
   -file player_comfort_zones_reducer.py -reducer player_comfort_zones_reducer.py \
   -mapper cat \
   -input $OUTPUT2 -output $OUTPUT3
 
-# View result
+
 /usr/local/hadoop/bin/hdfs dfs -cat $OUTPUT3/part-00000
 
-# Clean up
+
 /usr/local/hadoop/bin/hdfs dfs -rm -r $INPUT $OUTPUT1 $OUTPUT2 $OUTPUT3
 rm -f maxpoints.txt
 
