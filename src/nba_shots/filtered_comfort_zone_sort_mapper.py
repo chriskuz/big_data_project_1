@@ -6,7 +6,7 @@ import csv
 shot_dist_mid = float(sys.argv[1])
 def_dist_mid = float(sys.argv[2])
 clock_mid = float(sys.argv[3])
-focus_players = {"Stephen Curry", "Chris Paul", "James Harden", "Lebron James"}
+focus_players = {"Chris Paul", "Stephen Curry", "James Harden", "Lebron James"}
 
 for line in sys.stdin:
     if not line.startswith("COMFORTZONE"):
@@ -14,8 +14,10 @@ for line in sys.stdin:
     try:
         prefix, value = line.strip().split("\t")
         _, player, zone = prefix.split("|")
-        if player not in focus_players:
+        player_cleaned = player.strip().title()
+        if player_cleaned not in focus_players:
             continue
+        player = player_cleaned
         shot_dist, def_dist, clock = map(float, zone.split("_"))
         fgm = int(value)
     except ValueError:
