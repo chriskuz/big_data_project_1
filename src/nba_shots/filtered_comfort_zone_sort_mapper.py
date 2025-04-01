@@ -2,7 +2,7 @@
 import sys
 import csv
 
-# Midpoint thresholds passed from command line args
+
 shot_dist_mid = float(sys.argv[1])
 def_dist_mid = float(sys.argv[2])
 clock_mid = float(sys.argv[3])
@@ -23,12 +23,12 @@ for line in sys.stdin:
     except ValueError:
         continue
 
-    # Categorize zone
+
     sd = int(shot_dist >= shot_dist_mid)
     dd = int(def_dist >= def_dist_mid)
     sc = int(clock >= clock_mid)
 
-    # Comfort zone name
+
     if sd == 0 and dd == 0:
         zone_label = "closer_shooting_closer_defender"
     elif sd == 1 and dd == 0:
@@ -41,5 +41,5 @@ for line in sys.stdin:
     clock_label = "high_clock" if sc else "low_clock"
     final_zone = f"{zone_label}_{clock_label}"
 
-    # Emit as single key: player|zone, then tab, then fgm
+    
     print(f"{player}|{final_zone}\t{fgm}")

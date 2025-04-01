@@ -2,7 +2,7 @@
 import sys
 import csv
 
-# Midpoint thresholds passed from command line args
+
 shot_dist_mid = float(sys.argv[1])
 def_dist_mid = float(sys.argv[2])
 clock_mid = float(sys.argv[3])

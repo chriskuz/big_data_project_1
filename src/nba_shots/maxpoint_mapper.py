@@ -5,7 +5,7 @@ import csv
 reader = csv.DictReader(sys.stdin)
 
 for row in reader:
-    # Handle each attribute separately
+    #handling each attribute separately
     try:
         shot_dist = float(row["SHOT_DIST"])
         print(f"SHOT_DIST\t{shot_dist}")

@@ -19,6 +19,6 @@ for line in sys.stdin:
     else:
         current_max = max(current_max, value)
 
-# Final line
+#last line clause
 if current_key is not None:
     print(f"{current_key}\t{current_max}")

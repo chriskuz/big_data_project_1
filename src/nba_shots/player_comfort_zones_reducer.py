@@ -25,7 +25,7 @@ for line in sys.stdin:
     fgm_total += fgm
     fga_total += 1
 
-# Last line
+#last line clause
 if current_key:
     cp, cz = current_key.split("|")
     hit_rate = (fgm_total / fga_total) * 100 if fga_total > 0 else 0.0
