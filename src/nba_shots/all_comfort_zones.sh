@@ -33,13 +33,13 @@ echo "[INFO] Midpoints: $SHOT_DIST $CLOSE_DEF $SHOT_CLOCK"
 # === STEP 2: Categorization job (outputs player + zone + FGM) ===
 /usr/local/hadoop/bin/hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.3.1.jar \
   -file general_mapper.py -mapper general_mapper.py \
-  -file comfort_zone_sort_mapper.py \
-  -reducer "python3 comfort_zone_sort_mapper.py $SHOT_DIST $CLOSE_DEF $SHOT_CLOCK" \
+  -file all_comfort_zone_sort_mapper.py \
+  -reducer "python3 all_comfort_zone_sort_mapper.py $SHOT_DIST $CLOSE_DEF $SHOT_CLOCK" \
   -input $INPUT -output $OUTPUT2
 
 # === STEP 3: Aggregation job ===
 /usr/local/hadoop/bin/hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.3.1.jar \
-  -file all_comfort_zones_reducer.py -reducer all_comfort_zones_reducer.py \
+  -file player_comfort_zones_reducer.py -reducer player_comfort_zones_reducer.py \
   -mapper cat \
   -input $OUTPUT2 -output $OUTPUT3
 
