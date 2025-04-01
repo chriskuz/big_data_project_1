@@ -36,5 +36,5 @@ for line in sys.stdin:
     clock_label = "high_clock" if sc else "low_clock"
     final_zone = f"{zone_label}_{clock_label}"
 
-    # Emit as single key: player|zone, then tab, then fgm
+
     print(f"{player}|{final_zone}\t{fgm}")
